@@ -125,6 +125,9 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json())
 app.use(cors())
 
+await Moralis.start({
+  apiKey: process.env.MORALIS_API_KEY
+});
 
 // Get image from OpenAI
 app.get('/api/images', async (req, res) => {
@@ -161,7 +164,6 @@ app.get('/api/send', async (req, res) => {
 })
 
 // Get abi
-
 app.get('/api/abi', async (req, res) => {
 
   const { address } = req.query
@@ -178,7 +180,6 @@ app.get('/api/abi', async (req, res) => {
 })
 
 // Get token symbol
-
 app.get('/api/symbol', async (req, res) => {
   const { address } = req.query
   const metadata = await alchemy.core.getTokenMetadata(address)
@@ -186,7 +187,6 @@ app.get('/api/symbol', async (req, res) => {
   console.log('symbol: ', symbol)
   res.send({symbol})
 })
-
 
 // Get tokens
 app.get('/api/tokens', async (req, res) => {
@@ -234,6 +234,36 @@ app.get('/api/tokens', async (req, res) => {
   console.log('token object to be sent: ', tokensObject)
 
   res.send(tokensObject)
+})
+
+//Get dollar price
+app.get('/api/dollarprice', async (req, res) => {
+  const { address } = req.query
+
+  console.log('address: ', address)
+  
+  try {
+  
+    const response = await Moralis.EvmApi.token.getTokenPrice({
+      "chain": "0x1",
+      "exchange": "uniswap-v2",
+      "address": "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0" //hardcoded for now
+    });
+    
+    console.log('moralis raw response', response.raw);
+  
+    const dollarPrice = response.raw.usdPrice.toString()
+  
+    console.log('usd price: ', dollarPrice)
+    
+    //later pass the amount and return dollar value, not price
+
+    res.send({dollarPrice})
+
+  } catch (error) {
+    console.log('moralis error: ', error)
+  }
+
 })
 
 
