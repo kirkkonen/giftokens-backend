@@ -252,7 +252,7 @@ app.get('/api/dollarprice', async (req, res) => {
     
     console.log('moralis raw response', response.raw);
   
-    const dollarPrice = response.raw.usdPrice.toString()
+    const dollarPrice = response.raw.usdPrice
   
     console.log('usd price: ', dollarPrice)
     
