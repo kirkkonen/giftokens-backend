@@ -3,6 +3,7 @@ import axios from 'axios'
 import cors from 'cors'
 import fs from 'fs'
 import { promises as fsPromises } from 'fs'
+import { unlink } from 'node:fs/promises';
 import writeFileSync from 'fs'
 import FormData from 'form-data'
 import https from 'https'
@@ -16,9 +17,12 @@ import Moralis from 'moralis';
 dotenv.config()
 
 const alchemySettings = {
-    apiKey: process.env.ALCHEMY_API_KEY,
-    network: Network.ETH_GOERLI
+    // apiKey: process.env.ALCHEMY_GOERLI_API_KEY,
+    apiKey: process.env.ALCHEMY_SEPOLIA_API_KEY,
+    // network: Network.ETH_GOERLI
+    network: Network.ETH_SEPOLIA
 };
+
 const alchemy = new Alchemy(alchemySettings);
 
 
@@ -78,6 +82,12 @@ const pinFileToIPFS = async (link) => {
     })
     formData.append('pinataOptions', options);
 
+    try {
+      await unlink(fileName);
+      console.log('successfully deleted', fileName);
+    } catch (error) {
+      console.error('there was an error:', error.message);
+    }
 
     try{
       const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
@@ -169,7 +179,9 @@ app.get('/api/abi', async (req, res) => {
   const { address } = req.query
   console.log('address: ', address)
 
-  const etherscanLink = `https://api-goerli.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=${etherscanApiKey}`
+  // const etherscanLink = `https://api-goerli.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=${etherscanApiKey}`
+  const etherscanLink = `https://api-sepolia.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=${etherscanApiKey}`
+
 
   const response = await axios.get(etherscanLink);
   const data = await response.data.result;
