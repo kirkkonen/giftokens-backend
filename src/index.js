@@ -24,6 +24,7 @@ const alchemySettings = {
 };
 
 const alchemy = new Alchemy(alchemySettings);
+const feeData = await alchemy.core.getFeeData();
 
 
 const app = express()
@@ -189,6 +190,14 @@ app.get('/api/abi', async (req, res) => {
 
   res.send(data)
 
+})
+
+// Get maxPriorityFeePerGas
+
+app.get('/api/maxPriorityFeePerGas', async (req, res) => {
+  const maxPriorityFeePerGas = feeData.maxPriorityFeePerGas
+  console.log('max priority fee per gas: ', maxPriorityFeePerGas)
+  res.send({maxPriorityFeePerGas})
 })
 
 // Get token symbol
