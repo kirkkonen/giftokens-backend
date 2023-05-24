@@ -17,10 +17,10 @@ import Moralis from 'moralis';
 dotenv.config()
 
 const alchemySettings = {
-    // apiKey: process.env.ALCHEMY_GOERLI_API_KEY,
-    apiKey: process.env.ALCHEMY_SEPOLIA_API_KEY,
-    // network: Network.ETH_GOERLI
-    network: Network.ETH_SEPOLIA
+    apiKey: process.env.ALCHEMY_GOERLI_API_KEY,
+    // apiKey: process.env.ALCHEMY_SEPOLIA_API_KEY,
+    network: Network.ETH_GOERLI
+    // network: Network.ETH_SEPOLIA
 };
 
 const alchemy = new Alchemy(alchemySettings);
@@ -85,9 +85,9 @@ const pinFileToIPFS = async (link) => {
 
     try {
       await unlink(fileName);
-      console.log('successfully deleted', fileName);
+      console.log('successfully deleted ', fileName);
     } catch (error) {
-      console.error('there was an error:', error.message);
+      console.error('deletion error: ', error.message);
     }
 
     try{
