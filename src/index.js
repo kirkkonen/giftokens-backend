@@ -83,13 +83,6 @@ const pinFileToIPFS = async (link) => {
     })
     formData.append('pinataOptions', options);
 
-    try {
-      await unlink(fileName);
-      console.log('successfully deleted ', fileName);
-    } catch (error) {
-      console.error('deletion error: ', error.message);
-    }
-
     try{
       const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
         maxBodyLength: "Infinity",
@@ -98,6 +91,13 @@ const pinFileToIPFS = async (link) => {
           Authorization: JWT
         }
       });
+      
+      try {
+        await unlink(fileName);
+        console.log('successfully deleted ', fileName);
+      } catch (error) {
+        console.error('deletion error: ', error.message);
+      }
       return res.data
 
     } catch (error) {
