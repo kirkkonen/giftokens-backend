@@ -72,7 +72,7 @@ const pinFileToIPFS = async (link) => {
     const formData = new FormData();
     const file = fs.createReadStream(`./${fileName}`)
     formData.append('file', file)
-    
+
     const metadata = JSON.stringify({
       name: 'test-file',
     });
@@ -119,13 +119,13 @@ async function pinJSON(imageHash) {
   var config = {
     method: 'post',
     url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
-    headers: { 
-      'Content-Type': 'application/json', 
+    headers: {
+      'Content-Type': 'application/json',
       'Authorization': JWT
     },
     data : data
   };
-  
+
   const res = await axios(config)
   console.log('res. data from axios: ', res.data)
   return res.data
@@ -152,7 +152,7 @@ app.get('/api/images', async (req, res) => {
           n: parseInt(n, 10),
           size: "256x256",
       });
-  
+
       console.log(response.data.data.map((data) => data.url))
       res.send(response.data.data.map((data) => data.url))
     } catch (error) {
@@ -235,7 +235,7 @@ app.get('/api/tokens', async (req, res) => {
   });
 
   for (let token of nonZeroBalances) {
-    
+
     var tokenObj = {
       address: String,
       readableString: String
@@ -262,21 +262,21 @@ app.get('/api/dollarprice', async (req, res) => {
   const { address } = req.query
 
   console.log('address: ', address)
-  
+
   try {
-  
+
     const response = await Moralis.EvmApi.token.getTokenPrice({
       "chain": "0x1",
       "exchange": "uniswap-v2",
       "address": "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0" //hardcoded for now
     });
-    
+
     console.log('moralis raw response', response.raw);
-  
+
     const dollarPrice = response.raw.usdPrice
-  
+
     console.log('usd price: ', dollarPrice)
-    
+
     //later pass the amount and return dollar value, not price
 
     res.send({dollarPrice})
