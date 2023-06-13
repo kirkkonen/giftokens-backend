@@ -28,7 +28,7 @@ const feeData = await alchemy.core.getFeeData();
 
 
 const app = express()
-const port = 3000
+const port = 8080
 
 
 const configuration = new Configuration({
@@ -91,7 +91,7 @@ const pinFileToIPFS = async (link) => {
           Authorization: JWT
         }
       });
-      
+
       try {
         await unlink(fileName);
         console.log('successfully deleted ', fileName);
