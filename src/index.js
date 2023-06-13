@@ -17,10 +17,10 @@ import Moralis from 'moralis';
 dotenv.config()
 
 const alchemySettings = {
-    // apiKey: process.env.ALCHEMY_GOERLI_API_KEY,
-    apiKey: process.env.ALCHEMY_SEPOLIA_API_KEY,
-    // network: Network.ETH_GOERLI
-    network: Network.ETH_SEPOLIA
+    apiKey: process.env.ALCHEMY_GOERLI_API_KEY,
+    // apiKey: process.env.ALCHEMY_SEPOLIA_API_KEY,
+    network: Network.ETH_GOERLI
+    // network: Network.ETH_SEPOLIA
 };
 
 const alchemy = new Alchemy(alchemySettings);
@@ -83,13 +83,6 @@ const pinFileToIPFS = async (link) => {
     })
     formData.append('pinataOptions', options);
 
-    try {
-      await unlink(fileName);
-      console.log('successfully deleted', fileName);
-    } catch (error) {
-      console.error('there was an error:', error.message);
-    }
-
     try{
       const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
         maxBodyLength: "Infinity",
@@ -98,6 +91,13 @@ const pinFileToIPFS = async (link) => {
           Authorization: JWT
         }
       });
+      
+      try {
+        await unlink(fileName);
+        console.log('successfully deleted ', fileName);
+      } catch (error) {
+        console.error('deletion error: ', error.message);
+      }
       return res.data
 
     } catch (error) {
