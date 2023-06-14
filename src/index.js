@@ -28,7 +28,7 @@ const feeData = await alchemy.core.getFeeData();
 
 
 const app = express()
-const port = 8000
+const port = process.env.PORT || 8080
 
 
 const configuration = new Configuration({
