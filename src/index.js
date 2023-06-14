@@ -288,6 +288,6 @@ app.get('/api/dollarprice', async (req, res) => {
 })
 
 
-app.listen(port, '0.0.0.0',() => {
+app.listen(port, () => {
   console.log(`Web3Gifts backend app listening on port ${port}`)
 })
