@@ -12,6 +12,7 @@ import fetch from 'node-fetch'
 import { Network, Utils, Alchemy } from 'alchemy-sdk'
 import dotenv  from "dotenv"
 import Moralis from 'moralis';
+import { sendMailgunEmail2 } from './mailgunSender.js'
 
 
 dotenv.config()
@@ -283,6 +284,22 @@ app.get('/api/dollarprice', async (req, res) => {
 
   } catch (error) {
     console.log('moralis error: ', error)
+    res.status(500).send({message: 'error'})
+  }
+
+})
+
+//Get dollar price
+app.get('/api/mail', async (req, res) => {
+  try {
+    const { to } = req.query
+
+    await sendMailgunEmail2(to)
+
+    res.send({message: 'email sent'})
+  } catch (error) {
+    console.log('error: ', error)
+    res.status(500).send({message: 'error'})
   }
 
 })
