@@ -289,12 +289,11 @@ app.get('/api/dollarprice', async (req, res) => {
 
 })
 
-//Get dollar price
 app.get('/api/mail', async (req, res) => {
   try {
     const { to } = req.query
 
-    await sendMailgunEmail2(to)
+    const res_msg = await sendMailgunEmail2(to)
 
     res.send({message: 'email sent'})
   } catch (error) {
