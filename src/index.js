@@ -155,7 +155,7 @@ app.get('/api/images', async (req, res) => {
           size: "256x256",
       });
 
-      console.log(response.data.data.map((data) => data.url))
+      // console.log(response.data.data.map((data) => data.url))
       res.send(response.data.data.map((data) => data.url))
     } catch (error) {
       console.log('error: ', error)
@@ -254,7 +254,7 @@ app.get('/api/tokens', async (req, res) => {
     tokensObject.tokensArray.push(tokenObj)
   }
 
-  console.log('token object to be sent: ', tokensObject)
+  // console.log('token object to be sent: ', tokensObject)
 
   res.send(tokensObject)
 })
@@ -273,7 +273,7 @@ app.get('/api/dollarprice', async (req, res) => {
       "address": "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0" //hardcoded for now
     });
 
-    console.log('moralis raw response', response.raw);
+    // console.log('moralis raw response', response.raw);
 
     const dollarPrice = response.raw.usdPrice
 
@@ -293,6 +293,8 @@ app.get('/api/dollarprice', async (req, res) => {
 app.get('/api/mail', async (req, res) => {
   try {
     const { to } = req.query
+
+    console.log('trying to send an email', req.query)
 
     const res_msg = await sendMailgunEmail2(to)
 
