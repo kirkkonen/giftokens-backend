@@ -93,16 +93,17 @@ const pinFileToIPFS = async (link) => {
         }
       });
 
-      try {
-        await unlink(fileName);
-        console.log('successfully deleted ', fileName);
-      } catch (error) {
-        console.error('deletion error: ', error.message);
-      }
       return res.data
 
     } catch (error) {
       console.log(error)
+    }
+
+    try {
+      await unlink(fileName);
+      console.log('successfully deleted ', fileName);
+    } catch (error) {
+      console.error('deletion error: ', error.message);
     }
 
 }
