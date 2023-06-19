@@ -5,12 +5,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "server": "pm2 start src/index.js --name web3gifts-backend",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@mailchimp/mailchimp_transactional": "^1.0.50",
     "@moralisweb3/common-evm-utils": "^2.18.4",
     "alchemy-sdk": "^2.6.1",
     "axios": "^1.2.5",
@@ -18,8 +20,11 @@
     "dotenv": "^16.0.3",
     "etherscan-api": "^10.3.0",
     "express": "^4.18.2",
+    "form-data": "^4.0.0",
+    "mailgun.js": "^9.1.0",
     "moralis": "^2.18.4",
     "node-fetch": "^3.3.0",
-    "openai": "^3.1.0"
+    "openai": "^3.1.0",
+    "pm2": "^5.3.0"
   }
 }

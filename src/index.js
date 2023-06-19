@@ -12,6 +12,7 @@ import fetch from 'node-fetch'
 import { Network, Utils, Alchemy } from 'alchemy-sdk'
 import dotenv  from "dotenv"
 import Moralis from 'moralis';
+import { sendMailgunEmail2 } from './mailgunSender.js'
 
 
 dotenv.config()
@@ -28,7 +29,7 @@ const feeData = await alchemy.core.getFeeData();
 
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 8080
 
 
 const configuration = new Configuration({
@@ -72,7 +73,7 @@ const pinFileToIPFS = async (link) => {
     const formData = new FormData();
     const file = fs.createReadStream(`./${fileName}`)
     formData.append('file', file)
-    
+
     const metadata = JSON.stringify({
       name: 'test-file',
     });
@@ -91,7 +92,7 @@ const pinFileToIPFS = async (link) => {
           Authorization: JWT
         }
       });
-      
+
       try {
         await unlink(fileName);
         console.log('successfully deleted ', fileName);
@@ -119,13 +120,13 @@ async function pinJSON(imageHash) {
   var config = {
     method: 'post',
     url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
-    headers: { 
-      'Content-Type': 'application/json', 
+    headers: {
+      'Content-Type': 'application/json',
       'Authorization': JWT
     },
     data : data
   };
-  
+
   const res = await axios(config)
   console.log('res. data from axios: ', res.data)
   return res.data
@@ -152,7 +153,7 @@ app.get('/api/images', async (req, res) => {
           n: parseInt(n, 10),
           size: "256x256",
       });
-  
+
       console.log(response.data.data.map((data) => data.url))
       res.send(response.data.data.map((data) => data.url))
     } catch (error) {
@@ -235,7 +236,7 @@ app.get('/api/tokens', async (req, res) => {
   });
 
   for (let token of nonZeroBalances) {
-    
+
     var tokenObj = {
       address: String,
       readableString: String
@@ -262,27 +263,42 @@ app.get('/api/dollarprice', async (req, res) => {
   const { address } = req.query
 
   console.log('address: ', address)
-  
+
   try {
-  
+
     const response = await Moralis.EvmApi.token.getTokenPrice({
       "chain": "0x1",
       "exchange": "uniswap-v2",
       "address": "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0" //hardcoded for now
     });
-    
+
     console.log('moralis raw response', response.raw);
-  
+
     const dollarPrice = response.raw.usdPrice
-  
+
     console.log('usd price: ', dollarPrice)
-    
+
     //later pass the amount and return dollar value, not price
 
     res.send({dollarPrice})
 
   } catch (error) {
     console.log('moralis error: ', error)
+    res.status(500).send({message: 'error'})
+  }
+
+})
+
+app.get('/api/mail', async (req, res) => {
+  try {
+    const { to } = req.query
+
+    const res_msg = await sendMailgunEmail2(to)
+
+    res.send({message: 'email sent'})
+  } catch (error) {
+    console.log('error: ', error)
+    res.status(500).send({message: 'error'})
   }
 
 })
