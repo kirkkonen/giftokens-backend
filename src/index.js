@@ -294,9 +294,12 @@ app.get('/api/mail', async (req, res) => {
   try {
     const { to } = req.query
 
-    console.log('trying to send an email', req.query)
+    console.log('trying to send an email to', to)
 
-    const res_msg = await sendMailgunEmail2(to)
+    // const res_msg = await sendMailgunEmail2(to)
+    await sendMailgunEmail2(to)
+
+    console.log('email sent to ', to)
 
     res.send({message: 'email sent'})
   } catch (error) {
