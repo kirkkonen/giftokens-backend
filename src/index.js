@@ -12,7 +12,7 @@ import fetch from 'node-fetch'
 import { Network, Utils, Alchemy } from 'alchemy-sdk'
 import dotenv  from "dotenv"
 import Moralis from 'moralis';
-import { sendMailgunEmail2 } from './mailgunSender.js'
+import { sendMailgunEmail2, sendStakingMailgunEmail } from './mailgunSender.js'
 import { mintAndAttach } from './contractCaller.js'
 
 
@@ -303,6 +303,27 @@ app.get('/api/mail', async (req, res) => {
     console.log('email sent to ', to)
 
     res.send({message: 'email sent'})
+  } catch (error) {
+    console.log('error: ', error)
+    res.status(500).send({message: 'error'})
+  }
+
+})
+
+//Send staking email
+
+app.get('/api/mailStaking', async (req, res) => {
+  try {
+    const { to } = req.query
+
+    console.log('trying to send a staking email to', to)
+
+    // const res_msg = await sendMailgunEmail2(to)
+    await sendStakingMailgunEmail(to)
+
+    console.log('staking email sent to ', to)
+
+    res.send({message: 'staking email sent'})
   } catch (error) {
     console.log('error: ', error)
     res.status(500).send({message: 'error'})
