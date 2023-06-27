@@ -13,13 +13,14 @@ import { Network, Utils, Alchemy } from 'alchemy-sdk'
 import dotenv  from "dotenv"
 import Moralis from 'moralis';
 import { sendMailgunEmail2 } from './mailgunSender.js'
+import { mintAndAttach } from './contractCaller.js'
 
 
 dotenv.config()
 
 const alchemySettings = {
     apiKey: process.env.ALCHEMY_GOERLI_API_KEY,
-    // apiKey: process.env.ALCHEMY_SEPOLIA_API_KEY,
+    // apiKey: process.env.ALCHEMY_SEPOLIA_API_KEY, 
     network: Network.ETH_GOERLI
     // network: Network.ETH_SEPOLIA
 };
@@ -108,7 +109,7 @@ const pinFileToIPFS = async (link) => {
 
 }
 
-// Pin JSON to IPFS
+// Pin JSON to IPFS 
 
 async function pinJSON(imageHash) {
 
@@ -309,6 +310,13 @@ app.get('/api/mail', async (req, res) => {
 
 })
 
+// calling the contract via contractCaller
+app.get('api/mintandattach'), async (req, res) => {
+  console.log('started minting and attaching')
+  const tokenID = await mintAndAttach()
+  console.log('minted and attached, token id: ', tokenID)
+  res.send(tokenID)
+}
 
 app.listen(port, () => {
   console.log(`Web3Gifts backend app listening on port ${port}`)
