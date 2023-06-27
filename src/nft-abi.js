@@ -713,3 +713,6 @@ const contractAbi = [
 		"type": "function"
 	}
 ]
+
+const _contractAbi = contractAbi;
+export { _contractAbi as contractAbi };

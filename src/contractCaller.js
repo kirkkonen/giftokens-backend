@@ -1,14 +1,19 @@
-const Web3 = require('web3')
-const contractAbi = require('./contractAbi')
-const Provider = require('@truffle/hdwallet-provider');
-require("dotenv").config();
+import Web3 from "web3"
+import { contractAbi } from "./nft-abi.js";
+import HDWalletProvider from '@truffle/hdwallet-provider'
+import dotenv from "dotenv"
+
+dotenv.config()
+
+//const Provider = require('@truffle/hdwallet-provider');
+//require("dotenv").config();
 
 const SmartContractAddress = process.env.NFT_CONTRACT;
 const callerAddress = process.env.CALLER_ADDRESS;
 const privatekey = process.env.SEEDPHRASE;
 const rpcurl = process.env.RPCURL;
 
-const provider = new Provider(privatekey, rpcurl);
+const provider = new HDWalletProvider(privatekey, rpcurl);
 const web3 = new Web3(provider);
 const nftContract = new web3.eth.Contract(contractAbi, SmartContractAddress);
 
@@ -29,4 +34,7 @@ async function mintAndAttach() {
     return tokenID;
   }
 
-module.exports.mintAndAttach = mintAndAttach
+//module.exports.mintAndAttach = mintAndAttach;
+
+const _mintAndAttach = mintAndAttach;
+export { _mintAndAttach as mintAndAttach };
