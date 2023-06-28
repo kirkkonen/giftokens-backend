@@ -308,7 +308,7 @@ app.get('/api/mail', async (req, res) => {
 
 })
 
-//Send staking email
+//Send staking email 
 
 app.get('/api/mailStaking', async (req, res) => {
   try {
@@ -330,12 +330,12 @@ app.get('/api/mailStaking', async (req, res) => {
 })
 
 // calling the contract via contractCaller
-app.get('api/mintandattach'), async (req, res) => {
+app.get('/api/mintandattach', async (req, res) => {
   console.log('started minting and attaching')
   const tokenID = await mintAndAttach()
   console.log('minted and attached, token id: ', tokenID)
-  res.send(tokenID)
-}
+  res.send({tokenID})
+})
 
 app.listen(port, () => {
   console.log(`Web3Gifts backend app listening on port ${port}`)
