@@ -2,11 +2,10 @@ import Web3 from "web3"
 import { contractAbi } from "./nft-abi.js";
 import HDWalletProvider from '@truffle/hdwallet-provider'
 import dotenv from "dotenv"
-
 dotenv.config()
 
-//const Provider = require('@truffle/hdwallet-provider');
-//require("dotenv").config();
+// const Provider = require('@truffle/hdwallet-provider');
+// require("dotenv").config();
 
 const SmartContractAddress = process.env.NFT_CONTRACT;
 const callerAddress = process.env.CALLER_ADDRESS;

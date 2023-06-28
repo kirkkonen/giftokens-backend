@@ -14,8 +14,6 @@ import dotenv  from "dotenv"
 import Moralis from 'moralis';
 import { sendMailgunEmail2, sendStakingMailgunEmail } from './mailgunSender.js'
 import { mintAndAttach } from './contractCaller.js'
-
-
 dotenv.config()
 
 const alchemySettings = {
@@ -341,4 +339,5 @@ app.get('api/mintandattach'), async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Web3Gifts backend app listening on port ${port}`)
+  //console.log('testing .env: ', process.env.ALCHEMY_GOERLI_API_KEY)
 })
