@@ -21,13 +21,16 @@ const nftContract = new web3.eth.Contract(contractAbi, SmartContractAddress);
 
 async function mintAndAttach() {
     console.log("started creating an NFT");
+    const amount = 100000000000000
+    // let bnAmount = Web3.utils.toBN("0x" + amount.toString(16))
+
     const tokenID = Math.floor(Math.random() * 10000)
     try {
       await nftContract.methods.mintAndAttach(
         "0x0000000000000000000000000000000000000000",
         tokenID,
         'https://ipfs.io/ipfs/QmaC2jpcYjFhimuvR3MCGE1cWkLVu96pNX2z89srbhcEkP',
-        100000,
+        amount,
         '0x0462f4A4777F49405839d641732d614d17286c43'
       ).send({ from: callerAddress });
     } catch (error) {

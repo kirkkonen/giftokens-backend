@@ -8,17 +8,17 @@ const domain = process.env.MAILGUN_DOMAIN
 
 console.log('domain mail', domain)
 
+// const text = `
+// Hi!
+
+// You have just created a new crypto wallet and claimed some free tokens in seconds. Impressive start!
+// Stay tuned for new opportunities from Giftokens.
+
+// Cheers,
+// Giftokens team
+// `
+
 const text = `
-Hi!
-
-You have just created a new crypto wallet and claimed some free tokens in seconds. Impressive start!
-Stay tuned for new opportunities from Giftokens.
-
-Cheers,
-Giftokens team
-`
-
-const stakingText = `
 Hi!
 
 Welcome to Giftokens and to the world of decentralized finance!
@@ -45,6 +45,7 @@ const mailgunClient = mailgun.client({
     key: apiKey
 })
 
+//temporarily unavailable, need to create a separate file for this one
 export async function sendMailgunEmail2(to) {
     return mailgunClient.messages.create(domain,{
         to,
@@ -55,9 +56,10 @@ export async function sendMailgunEmail2(to) {
 }
 
 export async function sendStakingMailgunEmail(to) {
+    //console.log('to: ', to, 'text: ', text)
     return mailgunClient.messages.create(domain,{
         to,
-        stakingText,
+        text,
         from: 'hi@giftokens.xyz',
         subject: 'Successful stake. What’s next?',
     });
