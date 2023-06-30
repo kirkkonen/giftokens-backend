@@ -21,7 +21,7 @@ const nftContract = new web3.eth.Contract(contractAbi, SmartContractAddress);
 
 async function mintAndAttach() {
     console.log("started creating an NFT");
-    const amount = 100000000000000
+    const amount = "100000000000000000000"
     // let bnAmount = Web3.utils.toBN("0x" + amount.toString(16))
 
     const tokenID = Math.floor(Math.random() * 10000)
