@@ -135,7 +135,9 @@ async function pinJSON(imageHash) {
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: 'https://web3gifts.web.app/'
+}));
 
 await Moralis.start({
   apiKey: process.env.MORALIS_API_KEY
