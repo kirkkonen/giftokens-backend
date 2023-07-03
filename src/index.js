@@ -136,7 +136,7 @@ async function pinJSON(imageHash) {
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())
 
-//for now working for Firebase hosted frontend only
+//for now working for Firebase hosted frontend only, 03.07.23
 app.use(cors({
     origin: 'https://web3gifts.web.app'
 }));
