@@ -61,6 +61,6 @@ export async function sendStakingMailgunEmail(to) {
         to,
         text,
         from: 'hi@giftokens.xyz',
-        subject: 'Successful stake. What’s next?',
+        subject: "You just staked and started earning. What’s next?",
     });
 }
