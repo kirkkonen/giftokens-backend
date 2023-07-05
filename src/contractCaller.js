@@ -28,6 +28,7 @@ async function mintAndAttach() {
     const tokenID = Math.floor(Math.random() * 10000)
     try {
       const price = await web3.eth.getGasPrice()
+      console.log('gas price: ', price)
 
       await nftContract.methods.mintAndAttach(
         "0x0000000000000000000000000000000000000000",
@@ -38,7 +39,7 @@ async function mintAndAttach() {
       ).send({ 
         from: callerAddress,
         gas: 3000000,
-        maxPriorityFeePerGas: Math.round(+(price) * 1.5)
+        maxPriorityFeePerGas: Math.round(+(Number(price)) * 1.5)
        });
     } catch (error) {
       console.log('error on creating NFT: ', error)
