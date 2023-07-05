@@ -24,15 +24,22 @@ async function mintAndAttach() {
     const amount = "100000000000000000000"
     // let bnAmount = Web3.utils.toBN("0x" + amount.toString(16))
 
+
     const tokenID = Math.floor(Math.random() * 10000)
     try {
+      const price = await web3.eth.getGasPrice()
+
       await nftContract.methods.mintAndAttach(
         "0x0000000000000000000000000000000000000000",
         tokenID,
         'https://ipfs.io/ipfs/QmaC2jpcYjFhimuvR3MCGE1cWkLVu96pNX2z89srbhcEkP',
         amount,
         '0x0462f4A4777F49405839d641732d614d17286c43'
-      ).send({ from: callerAddress });
+      ).send({ 
+        from: callerAddress,
+        gas: 3000000,
+        maxPriorityFeePerGas: Math.round(+(price) * 1.5)
+       });
     } catch (error) {
       console.log('error on creating NFT: ', error)
     }
