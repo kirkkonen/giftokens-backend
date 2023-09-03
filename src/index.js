@@ -13,7 +13,8 @@ import { Network, Utils, Alchemy } from 'alchemy-sdk'
 import dotenv  from "dotenv"
 import Moralis from 'moralis';
 import { sendMailgunEmail2, sendStakingMailgunEmail } from './mailgunSender.js'
-import { mintAndAttach } from './contractCaller.js'
+import { mintAndAttach } from './nftContractCaller.js'
+import { estimateGas } from './targetContractCaller.js'
 dotenv.config()
 
 const alchemySettings = {
@@ -337,6 +338,24 @@ app.get('/api/mintandattach', async (req, res) => {
   const tokenID = await mintAndAttach()
   console.log('minted and attached, token id: ', tokenID)
   res.send({tokenID})
+})
+
+// contract call from the frontend sponsored by backend wallet
+// backend is supposed to know the token, the contract and the method
+// amount is calculated as worth $5 on the frontend
+
+app.get('/api/sponsortx', async (req, res) => {
+  const { beneficiary, amount } = req.query
+
+  console.log('sponsoring a transaction for: ', beneficiary)
+
+  // estimate gas for a transaction for a given contract
+  const gasAmount = await estimateGas(amount, beneficiary)
+
+  // send a bundle transaction with tokens and gas coins to the beneficiary address
+
+  // get tx hash and return in res
+  
 })
 
 app.listen(port, () => {
